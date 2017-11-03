@@ -1,0 +1,23 @@
+web:
+  image: wordpress
+  links:
+    - mysql
+  environment:
+    - WORDPRESS_DB_PASSWORD=myPass
+  working_dir: /var/www/html
+  volumes_from:
+    - data
+  ports:
+    - "80:80"
+mysql:
+  image: tutum/mysql
+  volumes_from:
+    - data
+  environment:
+    - MYSQL_PASS=myPass
+    - MYSQL_DATABASE=wordpress
+data:
+  image: busybox
+  volumes:
+    - /var/www/html/wp-content
+    - /var/lib/mysql
