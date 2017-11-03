@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  web:
+    image: wordpress
+    links:
+      - mysql
+    working_dir: /var/www/html
+    volumes_from:
+      - data
+    ports:
+      - "80:80"
+  mysql:
+    image: tutum/mysql
+    volumes_from:
+      - data
+  data:
+    image: busybox
+    volumes:
+      - /var/www/html/wp-content
+      - /var/lib/mysql

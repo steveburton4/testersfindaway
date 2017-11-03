@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+ - node
+notifications:
+  email:
+    on_success: always
+    on_failure: always
+    recipients:
+      - steven.burton@hotmail.co.uk
+addons:
+  apt:
+    packages:
+    - python-pip
+before_install:
+  - pip install --upgrade --user awscli
+  - chmod +x deploy/ecs-deploy
+  - chmod +x deploy/ecs-deploy.sh
+after_success:
+  - deploy/ecs-deploy.sh
