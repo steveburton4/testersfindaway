@@ -21,3 +21,27 @@ data:
   volumes:
     - /var/www/html/wp-content
     - /var/lib/mysql
+backup:
+  image: tutum/dockup
+  volumes_from:
+    - data
+  environment:
+    - AWS_ACCESS_KEY_ID=<ACCESS_KEY>
+    - AWS_SECRET_ACCESS_KEY=<SECRET>
+    - AWS_DEFAULT_REGION=eu-west-1
+    - BACKUP_NAME=my-blog-backup
+    - PATHS_TO_BACKUP=/var/lib/mysql /var/www/html/wp-content
+    - S3_BUCKET_NAME=wordpress-backups
+    - RESTORE=false
+restore:
+  image: tutum/dockup
+  volumes_from:
+    - data
+  environment:
+    - AWS_ACCESS_KEY_ID=<ACCESS>
+    - AWS_SECRET_ACCESS_KEY=<SECRET>
+    - AWS_DEFAULT_REGION=eu-west-1
+    - BACKUP_NAME=my-blog-backups
+    - PATHS_TO_BACKUP=/var/lib/mysql /var/www/html/wp-content
+    - S3_BUCKET_NAME=wordpress-backups
+    - RESTORE=true
